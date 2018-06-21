@@ -17,21 +17,21 @@ from django.views.generic.edit import (
 ############################################Views Almacen########################
 class AlmacenList(ListView):
     model = Almacen
-    fields = ['id', 'codigo', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
+    fields = ['id', 'codigo', 'cod_barras', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
 class AlmacenDetail(DetailView):
     model = Almacen
-    fields = ['id', 'codigo', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
+    fields = ['id', 'codigo', 'cod_barras', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
 class AlmacenCreation(CreateView):
     model = Almacen
     success_url = reverse_lazy('almacen:list_almacen')
-    fields = ['id', 'codigo', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
+    fields = ['id', 'codigo', 'cod_barras', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
 class AlmacenUpdate(UpdateView):
     model = Almacen
     success_url = reverse_lazy('almacen:list_almacen')
-    fields = ['id', 'codigo', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
+    fields = ['id', 'codigo', 'cod_barras', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
 class AlmacenDelete(DeleteView):
     model = Almacen
-    fields = ['id', 'codigo', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion']
+    fields = ['id', 'codigo', 'cod_barras', 'descripcion', 'medida', 'unidad', 'existencia', 'cantidad_caja', 'cantidad_rb', 'proveedor', 'ubicacion', 'imagen']
 
 def AgregaraStock(request):
     if request.method == 'POST':

@@ -82,32 +82,24 @@
           <table class="table table-dark table-hover">
             <tr>
               <thead>
-                <th class="text-center">ID</th>
                 <th class="text-center">Codigo</th>
+                <th class="text-center">Codigo de Barras</th>
                 <th class="text-center">Descripcion</th>
                 <th class="text-center">Medida</th>
                 <th class="text-center">Unidad</th>
                 <th class="text-center">Existencia</th>
-                <th class="text-center">Cantidad (Caja)</th>
-                <th class="text-center">Cantidad (Rollo/Bolsa)</th>
-                <th class="text-center">Proveedor</th>
-                <th class="text-center">Ubicación</th>
                 <th class="text-center">Miniatura</th>
                 <th class="text-center">Acciones</th>
               </thead>
             </tr>
             {% for objects in queryset %}
             <tr>
-              <td class="text-center align-middle">{{ objects.id }}</td>
               <td class="text-center align-middle">{{ objects.codigo }}</td>
+              <td class="text-center align-middle">{% if objects.cod_barras %}<img src="{{ objects.cod_barras.url }}"  width="150"/>{% endif %}</td>
               <td class="text-center align-middle">{{ objects.descripcion }}</td>
               <td class="text-center align-middle">{{ objects.medida }}</td>
               <td class="text-center align-middle">{{ objects.unidad }}</td>
-              <td class="text-center align-middle">{{ objects.existencia }}</td>
-              <td class="text-center align-middle">{{ objects.cantidad_caja }}</td>
-              <td class="text-center align-middle">{{ objects.cantidad_rb }}</td>
-              <td class="text-center align-middle">{{ objects.proveedor }}</td>
-              <td class="text-center align-middle">{{ objects.ubicacion }}</td>
+              <td class="text-center align-middle">{% if objects.existencia == 0 %} <i style="color:#ff001f;">{{ objects.existencia }}</i>{%else%}{{ objects.existencia }}{%endif%}</td>
               <td class="text-center align-middle">{% if objects.imagen %}<img src="{{ objects.imagen.url }}"  width="150"/>{% endif %}</td>
               {% if user.is_superuser and user.is_staff %}
               <td class="text-center align-middle">
@@ -153,9 +145,102 @@
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {% bootstrap_form form %}
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="codigo">Código</label>
+                      <input type="text" name="codigo" name="codigo" title="" required id="codigo" maxlength="50" placeholder="Código..." class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="descripcion">Descripción</label>
+                      <input type="text" name="descripcion" name="descripcion" title="" required id="descripcion" maxlength="50" placeholder="Descripción..." class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="id_cod_barras" class="btn btn-default barcode">Código de Barras</label>
+                      <div class="row bootstrap4-multi-input">
+                        <div class="col-12">
+                          <input type="file" name="cod_barras" id="id_cod_barras" class="hidden" title="" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-                    <button type="submit" name="submit" class="btn btn-default">Hecho</button>
+
+
+                <div class="form-group"><label for="medida">Medida (mts/pza)</label><input type="text" name="medida" name="medida" title="" required id="medida" maxlength="50" placeholder="Medida..." class="form-control" /></div>
+                <div class="form-group"><label for="unidad">Unidad</label><select name="unidad" name="unidad" title="" required class="form-control" maxlength="50" id="unidad">
+                  <option value="" selected>-------</option>
+
+                  <option value="metros">metros</option>
+
+                  <option value="pieza">pieza</option>
+
+                </select></div>
+                <div class="form-group"><label for="unidad">Existencia</label><input type="number" name="existencia" value="0" required name="unidad" title="" min="0" id="unidad" placeholder="Unidad..." class="form-control" /></div>
+                <div class="form-group"><label for="cantidad_caja">Cantidad (Caja)</label><input type="number" name="cantidad_caja" value="0" required name="cantidad_caja" title="" min="0" id="cantidad_caja" placeholder="0,000" class="form-control" /></div>
+                <div class="form-group"><label for="cantidad_rb">Cantidad (Rollo/Bolsa)</label><input type="number" name="cantidad_rb" value="0" required name="cantidad_rb" title="" min="0" id="cantidad_rb" placeholder="0,000" class="form-control" /></div>
+                <div class="form-group"><label for="proveedor">Proveedor</label><select name="proveedor" name="proveedor" title="" required class="form-control" maxlength="50" id="proveedor">
+                  <option value="" selected>-------</option>
+
+                  <option value="LG">LG</option>
+
+                  <option value="Tubo Qualtek">Tubo Qualtek</option>
+
+                  <option value="Tubo Ecoline">Tubo Ecoline</option>
+
+                  <option value="Tubo W">Tubo W</option>
+
+                  <option value="Vidrios">Vidrios</option>
+
+                  <option value="Q-Ties">Q-Ties</option>
+
+                  <option value="Vidrios">Vidrios</option>
+
+                  <option value="Steren">Steren</option>
+
+                </select></div>
+                <div class="form-group"><label for="ubicacion">Ubicación</label><select name="ubicacion" name="ubicacion" title="" required class="form-control" maxlength="50" id="ubicacion">
+                  <option value="" selected>-------</option>
+
+                  <option value="PB">PB</option>
+
+                  <option value="P1">P1</option>
+
+                  <option value="P2">P2</option>
+
+                  <option value="1E">1E</option>
+
+                  <option value="1B">1B</option>
+
+                  <option value="2B">2B</option>
+
+                  <option value="PB1">PB1</option>
+
+                  <option value="PB2">PB2</option>
+
+                  <option value="PB3">PB3</option>
+
+                  <option value="PB4">PB4</option>
+
+                  <option value="PB5">PB5</option>
+
+                  <option value="PB6">PB6</option>
+
+                  <option value="PBE">PBE</option>
+
+                  <option value="PBC">PBC</option>
+
+                  <option value="PBO">PBO</option>
+
+                </select></div>
+                <div class="form-group"><label for="id_imagen">Miniatura</label><div class="row bootstrap4-multi-input"><div class="col-12"><input type="file" name="imagen" id="id_imagen" class="" title="" /></div></div></div>
+
+                    <button type="submit" name="submit" class="btn btn-primary">Hecho</button>
 
 
               </form>

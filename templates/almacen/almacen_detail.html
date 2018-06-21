@@ -26,24 +26,27 @@
 			<div class="row separatedv">
 				<div class="col-lg-12">
 					<div class="row">
-						<div class="col-lg-12">
-							<h1>{{ almacen.descripcion }}<sup><span class="badge">{{ almacen.codigo }}</span></sup></h1>
+						<div class="col-lg-12 text-center">
+							<h1>{{ almacen.descripcion }}<sup><span class="badge badge-light">{{ almacen.codigo }}</span></sup></h1>
 						</div>
-						<div class="col-lg-6">
-							<p>Código: <strong>{{ almacen.codigo }}</strong></p>
-              <p>Descripción: <strong>{{ almacen.descripcion }}</strong></p>
-              <p>Medida/Unidad: <strong>{{ almacen.medida }}/{{ almacen.unidad }}</strong></p>
-	            <p>Existencia: <strong>{{ almacen.existencia }}</strong></p>
+						<div class="col-lg-6 text-center">
+							<h4>Código: <strong>{{ almacen.codigo }}</strong></h4>
+              <h4>Descripción: <strong>{{ almacen.descripcion }}</strong></h4>
+              <h4>Medida/Unidad: <strong>{{ almacen.medida }}/{{ almacen.unidad }}</strong></h4>
+	            <h4>Existencia: <strong>{% if almacen.existencia == 0 %} <i style="color:#ff001f;">{{ almacen.existencia }}</i>{%else%}{{ almacen.existencia }}{%endif%}</strong></h4>
 						</div>
-						<div class="col-lg-6">
-              <p>Cantidad (Caja): <strong>{{ almacen.cantidad_caja }}</strong></p>
-              <p>Cantidad (Rollo/Bolsa): <strong>{{ almacen.cantidad_rb }}</strong></p>
-              <p>Proveedor: <strong>{{ almacen.proveedor }}</strong></p>
-              <p>Ubicación: <strong>{{ almacen.ubicacion }}</strong></p>
+						<div class="col-lg-6 text-center">
+              <h4>Cantidad (Caja): <strong>{{ almacen.cantidad_caja }}</strong></h4>
+              <h4>Cantidad (Rollo/Bolsa): <strong>{{ almacen.cantidad_rb }}</strong></h4>
+              <h4>Proveedor: <strong>{{ almacen.proveedor }}</strong></h4>
+              <h4>Ubicación: <strong>{{ almacen.ubicacion }}</strong></h4>
 						</div>
+            <div class="col-lg-12 text-center">
+              {% if almacen.cod_barras %}<img src="{{ almacen.cod_barras.url }}" />{% endif %}
+            </div>
 					</div>
 				</div>
-				<div class="col-lg-3">
+				<div class="col-lg-12 text-center">
 					<br>
 					<a href="{% url "almacen:edit_almacen" almacen.id %}">
 						<button type="submit" class="btn btn-info">Editar</button>

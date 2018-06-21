@@ -136,3 +136,12 @@ div.cs-skin-slide {
   font-size: 30px;
   cursor: pointer;
 }
+.barcode{
+  width: 100%;
+  padding: 20px;
+}
+.btn-primary{
+  background-color: #5db2d7!important;
+  color: #FFFFFF!important;
+  border-color: #5db2d7!important;
+}

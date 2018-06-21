@@ -11,6 +11,7 @@ class AlmacenForm(forms.ModelForm):
         fields = '__all__'
         labels = {
             'codigo': 'Código',
+            'cod_barras': 'Código de Barras',
             'descripcion': 'Descripción',
             'medida' : 'Medida (mts/pza)',
             'unidad' : 'Unidad',
@@ -20,9 +21,10 @@ class AlmacenForm(forms.ModelForm):
             'proveedor' : 'Proveedor',
             'ubicacion' : 'Ubicación',
             'imagen' : 'Miniatura',
+            'cod_barras' : 'Código de Barras',
             }
         widgets = { 'codigo': TextInput(attrs={
-                                        'class':'form-control input-lg',
+                                        'class':'form-control',
                                         'id': 'codigo',
                                         'name': 'codigo',
                                         'placeholder':'Código...'
