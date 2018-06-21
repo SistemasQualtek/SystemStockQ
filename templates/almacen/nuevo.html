@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% url 'productos:lista' as lista %}
+{% block head_title %}| Nuevo Producto{% endblock %}
+{% load bootstrap4 %}
+{% block content %}
+{% url 'almacen:list_almacen' as list_almacen %}
+<style media="screen">
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+</style>
+<!-- START PAGE CONTENT -->
+<div class="content">
+  <!-- START JUMBOTRON -->
+  <div class="jumbotron" data-pages="parallax">
+    <div class=" container-fluid container-fixed-lg sm-p-l-0 sm-p-r-0">
+      <div class="inner">
+        <!-- START BREADCRUMB -->
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{{list_almacen}}">Almacen</a></li>
+           <li class="breadcrumb-item active">Agregar Producto</li>
+        </ol>
+        <!-- END BREADCRUMB -->
+      </div>
+    </div>
+  </div>
+  <!-- END JUMBOTRON -->
+  <!-- START CONTAINER FLUID -->
+  <div class="container-fluid container-fixed-lg">
+    <!-- BEGIN PlACE PAGE CONTENT HERE -->
+<section class="section">
+  <div class="container">
+    <div class="row separatedv">
+          <div class="col-lg-12">
+            <div class="text-center">
+              <h1>Agregar Producto</h1>
+            </div>
+            <hr>
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+              <button type="submit" name="submit" class="btn btn-default">Hecho</button>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END PLACE PAGE CONTENT HERE -->
+</div>
+<!-- END CONTAINER FLUID -->
+</div>
+<!-- END PAGE CONTENT -->
+
+{% endblock %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+
+    </div>
+  </div>
+</div>

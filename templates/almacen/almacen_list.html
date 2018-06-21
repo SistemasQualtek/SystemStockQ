@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block head_title %}| Lista{% endblock %}
+{% block content %}
+{% url 'almacen:almacen' as nuevo %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+<script type="text/javascript">
+(function(document) {
+  'use strict';
+
+  var LightTableFilter = (function(Arr) {
+
+    var _input;
+
+    function _onInputEvent(e) {
+      _input = e.target;
+      var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+      Arr.forEach.call(tables, function(table) {
+        Arr.forEach.call(table.tBodies, function(tbody) {
+          Arr.forEach.call(tbody.rows, _filter);
+        });
+      });
+    }
+
+    function _filter(row) {
+      var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+      row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+    }
+
+    return {
+      init: function() {
+        var inputs = document.getElementsByClassName('light-table-filter');
+        Arr.forEach.call(inputs, function(input) {
+          input.oninput = _onInputEvent;
+        });
+      }
+    };
+  })(Array.prototype);
+
+  document.addEventListener('readystatechange', function() {
+    if (document.readyState === 'complete') {
+      LightTableFilter.init();
+    }
+  });
+
+})(document);
+</script>
+<!-- START PAGE CONTENT -->
+<div class="content">
+  <!-- START JUMBOTRON -->
+  <div class="jumbotron" data-pages="parallax">
+    <div class=" container-fluid container-fixed-lg sm-p-l-0 sm-p-r-0">
+      <div class="inner">
+        <!-- START BREADCRUMB -->
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item active">Almacen</li>
+         </ol>
+        <!-- END BREADCRUMB -->
+      </div>
+    </div>
+  </div>
+  <!-- END JUMBOTRON -->
+  <!-- START CONTAINER FLUID -->
+  <div class="container-fluid container-fixed-lg">
+    <!-- BEGIN PlACE PAGE CONTENT HERE -->
+<section class="section">
+
+    <div class="col-md-6" id="buscar">
+      <div class="form-group">
+        <input id="search" type="search" class="light-table-filter" data-table="table" placeholder="Buscar">
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+            <button type="button" name="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+              Registrar Producto <i class="far fa-edit"></i>
+            </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table table-dark table-hover">
+            <tr>
+              <thead>
+                <th class="text-center">ID</th>
+                <th class="text-center">Codigo</th>
+                <th class="text-center">Descripcion</th>
+                <th class="text-center">Medida</th>
+                <th class="text-center">Unidad</th>
+                <th class="text-center">Existencia</th>
+                <th class="text-center">Cantidad (Caja)</th>
+                <th class="text-center">Cantidad (Rollo/Bolsa)</th>
+                <th class="text-center">Proveedor</th>
+                <th class="text-center">Ubicación</th>
+                <th class="text-center">Miniatura</th>
+                <th class="text-center">Acciones</th>
+              </thead>
+            </tr>
+            {% for objects in queryset %}
+            <tr>
+              <td class="text-center align-middle">{{ objects.id }}</td>
+              <td class="text-center align-middle">{{ objects.codigo }}</td>
+              <td class="text-center align-middle">{{ objects.descripcion }}</td>
+              <td class="text-center align-middle">{{ objects.medida }}</td>
+              <td class="text-center align-middle">{{ objects.unidad }}</td>
+              <td class="text-center align-middle">{{ objects.existencia }}</td>
+              <td class="text-center align-middle">{{ objects.cantidad_caja }}</td>
+              <td class="text-center align-middle">{{ objects.cantidad_rb }}</td>
+              <td class="text-center align-middle">{{ objects.proveedor }}</td>
+              <td class="text-center align-middle">{{ objects.ubicacion }}</td>
+              <td class="text-center align-middle">{% if objects.imagen %}<img src="{{ objects.imagen.url }}"  width="150"/>{% endif %}</td>
+              {% if user.is_superuser and user.is_staff %}
+              <td class="text-center align-middle">
+                <a href="{% url "almacen:detail_almacen" objects.id %}">
+                  <button type="submit" class="btn btn-info">
+                    <i class="far fa-eye"></i>
+                  </button>
+                </a>
+                <a href="{% url "almacen:edit_almacen" objects.id %}">
+      						<button type="submit" class="btn btn-warning"><i class="fas fa-pencil-alt" style="color:black;"></i></button>
+      					</a>
+                <a href="{% url "almacen:delete_almacen" objects.id %}">
+                  <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-eraser"></i>
+                  </button>
+                </a>
+                {% elif user.is_staff %}
+                <td class="text-center align-middle">
+                  <a href="{% url "almacen:detail_almacen" objects.id %}">
+                    <button type="submit" class="btn btn-info">
+                      <i class="far fa-eye"></i>
+                    </button>
+                  </a>
+                  <a href="{% url "almacen:edit_almacen" objects.id %}">
+        						<button type="submit" class="btn btn-warning"><i class="fas fa-pencil-alt" style="color:black;"></i></button>
+        					</a>
+                {%else%}
+                {% endif %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+      <!-- Modal Nuevo Producto -->
+      <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="max-width:900px; min-width:900px;">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Agregar Producto</h4>
+            </div>
+            <div class="modal-body">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+
+                    <button type="submit" name="submit" class="btn btn-default">Hecho</button>
+
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Nuevo Producto -->
+</section>
+<!-- END PLACE PAGE CONTENT HERE -->
+</div>
+<!-- END CONTAINER FLUID -->
+</div>
+<!-- END PAGE CONTENT -->
+
+{% endblock %}
